@@ -1,0 +1,51 @@
+/*
+
+Consider an array called apple-stock as an argument. This array represents the variation of an Apple stock during a single day.
+The values in the array are in chronological order.
+
+ex: [1000, 500, 1500, 2000, 0] --> The stock began at 1000 and closed at 0;
+
+Write a function called highestProfit that calculates the highest profit you can make in the given day by buying and selling
+a single Apple stock. This is comprised of one buy and one sell. Keep your worst case time complexity in O(n^2).
+
+Return 0 if no profit is possible OR if input is invalid.
+
+** Extension **
+Refactor your function to improve your time complexity to O(n). Hint: Use pointers to keep track of the indices of max, min to
+calculate profit along the array.
+*/
+
+function highestProfit (array) {
+    if(Array.isArray(array)===false) {
+        console.log(Array.isArray(array))
+        return 0;
+    }
+
+// assigning lowest and highest cost to index zero and will update as we pass through loop
+    let lowestCost=array[0];
+    let highCost=array[0];
+// initial profit also zero
+    let profit = 0;
+
+// loop through array of prices and compare current value to high and low from previous iterations
+    for(let i=1; i<array.length; i++) {
+        // if the current value is the highest update highCost and calculate new profit
+        if(array[i] > highCost) {
+            highCost=array[i]
+            // profit will be the largest difference at the time of the highCost. It will not include future lowest costs
+            profit = highCost-lowestCost
+        }
+        // if the value is the lowest update lowest cost but DO NOT recalc profit.
+        // if we re-calc profit here it would be as if we could buy at a lower price AFTER already selling
+        else if (array[i]<lowestCost) {
+            lowestCost=array[i]
+        }
+    } 
+return profit
+
+}
+
+const applePrices = [1000, 500, 1500, 2000, 0, 0, 0, 0 ];
+// const pearPrices = {monday: 10, tuesday: 20, wednesday:30}
+console.log(highestProfit(applePrices))
+// console.log(highestProfit(pearPrices))
